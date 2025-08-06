@@ -33,3 +33,15 @@ CREATE TABLE netflix
     description  VARCHAR(550)
 );
 ```
+
+## Business Problems and Solutions
+
+
+
+
+
+
+
+
+
+
