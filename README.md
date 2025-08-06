@@ -36,7 +36,7 @@ CREATE TABLE netflix
 
 ## Business Problems and Solutions
 
-## 1. Count the Number of Movies vs TV Shows
+### 1. Count the Number of Movies vs TV Shows
 ```sql
  select
 	 type,
@@ -44,9 +44,9 @@ CREATE TABLE netflix
 	from netflix
 	group by type
 ```
-### Objective: Determine the distribution of content types on Netflix.
+**Objective:** Determine the distribution of content types on Netflix.
 
-## 2. Find the Most Common Rating for Movies and TV Shows
+### 2. Find the Most Common Rating for Movies and TV Shows
 ```sql
    select type,
    rating
@@ -61,17 +61,17 @@ CREATE TABLE netflix
  ) as t1
  where ranking = 1
 ```
-### Objective: Identify the most frequently occurring rating for each type of content.
+**Objective:** Identify the most frequently occurring rating for each type of content.
 
-## 3. List All Movies Released in a Specific Year (e.g., 2020)
+### 3. List All Movies Released in a Specific Year (e.g., 2020)
 ```sql
   select *
  from netflix
  where type = 'Movie' and release_year = '2020'
 ```
-### Objective: Retrieve all movies released in a specific year.
+**Objective:** Retrieve all movies released in a specific year.
 
-## 4. Find the Top 5 Countries with the Most Content on Netflix
+### 4. Find the Top 5 Countries with the Most Content on Netflix
 ```sql
    select unnest(string_to_array(country, ', ')) New_Country,
   count(*) Total_Content
@@ -80,9 +80,9 @@ CREATE TABLE netflix
   order by 2 desc
   limit 5
 ```
-### Objective: Identify the top 5 countries with the highest number of content items.
+ **Objective:** Identify the top 5 countries with the highest number of content items.
 
-## 5. Identify the Longest Movie
+### 5. Identify the Longest Movie
 ```sql
    select title, duration
   from netflix
@@ -90,25 +90,25 @@ CREATE TABLE netflix
   and 
   duration = (select max(duration) from netflix)
 ```
-### Objective: Find the movie with the longest duration.
+**Objective:** Find the movie with the longest duration.
 
-## 6. Find Content Added in the Last 5 Years
+### 6. Find Content Added in the Last 5 Years
 ```sql
   select * 
 	from netflix
 	where to_date(date_added, 'Month DD, YYYY') > current_date - interval '5 years'
 ```
-### Objective: Retrieve content added to Netflix in the last 5 years.
+**Objective:** Retrieve content added to Netflix in the last 5 years.
 
-## 7. Find All Movies/TV Shows by Director 'Rajiv Chilaka'
+### 7. Find All Movies/TV Shows by Director 'Rajiv Chilaka'
 ```sql
   select *
 	from netflix
 	where director ilike '%Rajiv Chilaka%'
 ```
-### Objective: List all content directed by 'Rajiv Chilaka'.
+**Objective:** List all content directed by 'Rajiv Chilaka'.
 
-## 8. List All TV Shows with More Than 5 Seasons
+### 8. List All TV Shows with More Than 5 Seasons
 ```sql
   select *
 	from netflix
@@ -116,17 +116,17 @@ CREATE TABLE netflix
 	and 
 	split_part (duration, ' ', 1)::numeric > 5
 ```
-### Objective: Identify TV shows with more than 5 seasons.
+**Objective:** Identify TV shows with more than 5 seasons.
 
-## 9. Count the Number of Content Items in Each Genre
+### 9. Count the Number of Content Items in Each Genre
 ```sql
   select unnest(string_to_array(listed_in, ',') ) gener, count(*) total_content
   from netflix
   group by 1
 ```
-### Objective: Count the number of content items in each genre.
+**Objective:** Count the number of content items in each genre.
 
-## 10.Find each year and the average numbers of content release in India on netflix.
+### 10.Find each year and the average numbers of content release in India on netflix.
 ```sql
   select Extract(year from to_date(date_added, 'Month DD, YYYY')) as year,
    count(*), Round(count(*)::numeric/(select count(*) from netflix where country = 'India')::numeric * 100, 2) avg_content
@@ -134,26 +134,26 @@ CREATE TABLE netflix
    where country = 'India'
    group by 1
 ```
-### Objective: Calculate and rank years by the average number of content releases by India.
+**Objective:** Calculate and rank years by the average number of content releases by India.
 
-## 11. List All Movies that are Documentaries
+### 11. List All Movies that are Documentaries
 ```sql
    select * 
    from netflix
    where type = 'Movie'
    and listed_in ilike '%Documentaries%'
 ```
-### Objective: Retrieve all movies classified as documentaries.
+**Objective:** Retrieve all movies classified as documentaries.
 
-## 12. Find All Content Without a Director
+### 12. Find All Content Without a Director
 ```sql
   select *
    from netflix
    where director is null
 ```
-### Objective: List content that does not have a director.
+**Objective:** List content that does not have a director.
 
-## 13. Find How Many Movies Actor 'Shah Rukh Khan' Appeared in the Last 10 Years
+### 13. Find How Many Movies Actor 'Shah Rukh Khan' Appeared in the Last 10 Years
 ```sql
     select *
 	from netflix
@@ -161,9 +161,9 @@ CREATE TABLE netflix
 	and
 	release_year > Extract(year from current_date) -  10 
 ```
-### Objective: Count the number of movies featuring 'Shah Rukh Khan' in the last 10 years.
+**Objective:** Count the number of movies featuring 'Shah Rukh Khan' in the last 10 years.
 
-## 14. Find the Top 10 Actors Who Have Appeared in the Highest Number of Movies Produced in India
+### 14. Find the Top 10 Actors Who Have Appeared in the Highest Number of Movies Produced in India
 ```sql
    select unnest(String_to_array(casts, ',')) Actors, count(*) total_content
 	 from netflix
@@ -174,9 +174,9 @@ CREATE TABLE netflix
 	 order by 2 desc
 	 Limit 10
 ```
-### Objective: Identify the top 10 actors with the most appearances in Indian-produced movies.
+**Objective:** Identify the top 10 actors with the most appearances in Indian-produced movies.
 
-## 15. Categorize Content Based on the Presence of 'Kill' and 'Violence' Keywords
+### 15. Categorize Content Based on the Presence of 'Kill' and 'Violence' Keywords
 ```sql
   With CTE
    as
@@ -193,13 +193,13 @@ CREATE TABLE netflix
    from cte
    group by 1
 ```
-### Objective: Categorize content as 'Bad' if it contains 'kill' or 'violence' and 'Good' otherwise. Count the number of items in each category.
+**Objective:** Categorize content as 'Bad' if it contains 'kill' or 'violence' and 'Good' otherwise. Count the number of items in each category.
 
 ## Findings and Conclusion
-* ### Content Distribution : The dataset contains a diverse range of movies and TV shows with varying ratings and genres.
-* ### Common Ratings: Insights into the most common ratings provide an understanding of the content's target audience.
-* ### Geographical Insights: The top countries and the average content releases by India highlight regional content distribution.
-* ### Content Categorization: Categorizing content based on specific keywords helps in understanding the nature of content available on Netflix.
+* **Content Distribution:** The dataset contains a diverse range of movies and TV shows with varying ratings and genres.
+* **Common Ratings:** Insights into the most common ratings provide an understanding of the content's target audience.
+* **Geographical Insights:** The top countries and the average content releases by India highlight regional content distribution.
+* **Content Categorization:** Categorizing content based on specific keywords helps in understanding the nature of content available on Netflix.
 
 This analysis provides a comprehensive view of Netflix's content and can help inform content strategy and decision-making.
 
