@@ -44,7 +44,8 @@ CREATE TABLE netflix
 	from netflix
 	group by type
 ```
-### Objective: Determine the distribution of content types on Netflix.
+### Objective: 
+Determine the distribution of content types on Netflix.
 
 ## 2. Find the Most Common Rating for Movies and TV Shows
 ```sql
