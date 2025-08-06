@@ -42,8 +42,59 @@ CREATE TABLE netflix
 	 type,
 	 count(*) Total_Content
 	from netflix
-	group by type;
+	group by type
 ```
+## Objective: Determine the distribution of content types on Netflix.
+
+## 2. Find the Most Common Rating for Movies and TV Shows
+```sql
+   select type,
+   rating
+  from
+  (
+  select type,
+   rating, 
+   count(*),
+   rank() over(partition by type order by count(*) desc) ranking
+  from netflix
+  group by 1,2
+ ) as t1
+ where ranking = 1
+```
+## Objective: Identify the most frequently occurring rating for each type of content.
+
+## 3. List All Movies Released in a Specific Year (e.g., 2020)
+```sql
+  select *
+ from netflix
+ where type = 'Movie' and release_year = '2020'
+```
+## Objective: Retrieve all movies released in a specific year.
+
+## 4. Find the Top 5 Countries with the Most Content on Netflix
+```sql
+   select unnest(string_to_array(country, ', ')) New_Country,
+  count(*) Total_Content
+  from netflix
+  group by 1
+  order by 2 desc
+  limit 5
+```
+## Objective: Identify the top 5 countries with the highest number of content items.
+
+## 5. Identify the Longest Movie
+```sql
+   select title, duration
+  from netflix
+  where type = 'Movie' 
+  and 
+  duration = (select max(duration) from netflix)
+```
+## Objective: Find the movie with the longest duration.
+
+
+
+
 
 
 
